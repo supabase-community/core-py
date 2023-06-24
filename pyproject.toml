@@ -8,7 +8,7 @@ packages = [{include = "supabase_client"}]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-httpx = "^0.24.1"
+httpx = "^0.23.0"
 
 
 [build-system]
