@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "supabase-client"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["DanhDevelop <danhdevelop@gmail.com>"]
 readme = "README.md"
