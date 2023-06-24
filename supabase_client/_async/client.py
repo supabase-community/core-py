@@ -31,10 +31,16 @@ class SupaAsyncClient(AsyncClient):
   session: Optional[Session] = None
   def __init__(
     self,
+    base_url: URLTypes = "",
+    headers: Optional[HeaderTypes] = None,
     anon_key: Optional[str] = None,
     timeout: Union[int, float, Timeout] = None,
   ) -> None:
-    super().__init__(timeout=timeout)
+    super().__init__(
+      base_url=base_url,
+      headers=headers, 
+      timeout=timeout,
+    )
     self.anon_key = anon_key
     self.timeout = timeout
   
@@ -56,7 +62,7 @@ class SupaAsyncClient(AsyncClient):
       extensions: Optional[RequestExtensions] = None,
     ) -> Response:
 
-    headers = {**(headers or {})}
+    headers = {**self._headers, **(headers or {})}
   
     if self.anon_key is not None:
       headers["API"] = f"{self.anon_key}"
