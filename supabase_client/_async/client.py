@@ -44,6 +44,9 @@ class SupaAsyncClient(AsyncClient):
     self.anon_key = anon_key
     self.timeout = timeout
   
+  def auth(self, session: Session)->None:
+    SupaAsyncClient.session = session
+
   def request(
       self,
       method: str,
@@ -67,7 +70,7 @@ class SupaAsyncClient(AsyncClient):
     if self.anon_key is not None:
       headers["API"] = f"{self.anon_key}"
 
-    if SupaAsyncClient.session is not None:
+    if SupaAsyncClient.session is not None and "Authorization" not in headers:
       headers["Authorization"] = f"Bearer {SupaAsyncClient.session.access_token}"
     
     return super().request(

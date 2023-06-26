@@ -42,6 +42,9 @@ class SupaSyncClient(SyncClient):
     )
     self.anon_key = anon_key
   
+  def auth(self, session: Session)->None:
+    SupaSyncClient.session = session
+
   def request(
       self,
       method: str,
@@ -64,9 +67,10 @@ class SupaSyncClient(SyncClient):
     if self.anon_key is not None:
       headers["API"] = f"{self.anon_key}"
 
-    if SupaSyncClient.session is not None:
+    if SupaSyncClient.session is not None and "Authorization" not in headers:
       headers["Authorization"] = f"Bearer {SupaSyncClient.session.access_token}"
     
+
     return super().request(
       method=method,
       url=url, 
