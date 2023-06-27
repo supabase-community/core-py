@@ -32,7 +32,6 @@ class SupaSyncClient(SyncClient):
     self,
     base_url: URLTypes = "",
     headers: Optional[HeaderTypes] = None,
-    anon_key: Optional[str] = None,
     timeout: Union[int, float, Timeout] = None,
   ) -> None:
     super().__init__(
@@ -40,9 +39,8 @@ class SupaSyncClient(SyncClient):
       headers=headers,
       timeout=timeout,
     )
-    self.anon_key = anon_key
   
-  def auth(self, session: Session)->None:
+  def setSession(self, session: Session)->None:
     SupaSyncClient.session = session
 
   def request(
@@ -63,14 +61,12 @@ class SupaSyncClient(SyncClient):
       extensions: Optional[RequestExtensions] = None,) -> Response:
 
     headers = {**self._headers, **(headers or {})}
-  
-    if self.anon_key is not None:
-      headers["API"] = f"{self.anon_key}"
 
-    if SupaSyncClient.session is not None and "Authorization" not in headers:
+    if SupaSyncClient.session is not None and "authorization" in headers:
+      headers.pop("authorization")
+    if SupaSyncClient.session is not None and "Authorization" not in headers and "authorization" not in headers:
       headers["Authorization"] = f"Bearer {SupaSyncClient.session.access_token}"
     
-
     return super().request(
       method=method,
       url=url, 
