@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "supabase-client"
+version = "0.1.3"
+description = ""
+authors = ["DanhDevelop <danhdevelop@gmail.com>"]
+readme = "README.md"
+packages = [{include = "supabase_client"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+httpx = "^0.23.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
